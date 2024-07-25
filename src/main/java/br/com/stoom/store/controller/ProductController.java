@@ -1,29 +1,27 @@
 package br.com.stoom.store.controller;
 
-import br.com.stoom.store.business.ProductBO;
-import br.com.stoom.store.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@Controller
-@RequestMapping("/api/products")
-public class ProductController {
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-    @Autowired
-    private ProductBO productService;
+import br.com.stoom.store.model.dto.ProductDTO;
+import br.com.stoom.store.model.entity.Product;
 
-    @GetMapping(value = "/")
-    public ResponseEntity<List<Product>> findAll() {
-        List<Product> p = productService.findAll();
-        if(!p.isEmpty())
-            return new ResponseEntity<>(p, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+public interface ProductController {
 
+    @GetMapping
+    public ResponseEntity<List<Product>> findAll();
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> findById(@PathVariable Long id);
+
+    @PostMapping
+    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody ProductDTO productDTO);
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id);
 }
