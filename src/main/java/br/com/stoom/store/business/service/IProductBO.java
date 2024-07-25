@@ -1,4 +1,4 @@
-package br.com.stoom.store.business.interfaces;
+package br.com.stoom.store.business.service;
 
 import br.com.stoom.store.model.Product;
 
