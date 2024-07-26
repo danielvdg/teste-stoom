@@ -38,7 +38,11 @@ public class Product {
             name = "product_category", joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<Category> categories;
-
-//     private Price price;
+    
+    @ManyToMany
+    @JoinTable(
+            name = "product_price", joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "price_id"))
+    private List<Price> prices;
 
 }
