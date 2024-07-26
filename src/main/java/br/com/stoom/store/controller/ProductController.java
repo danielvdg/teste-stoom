@@ -29,4 +29,7 @@ public interface ProductController {
 
     @GetMapping("/category/{id}")
     public  ResponseEntity<List<ProductDTO>> findProductByCategoryId(@PathVariable Long id);
+
+    @PutMapping("/activator/{id}")
+    public ResponseEntity<Void> productActivator(@PathVariable Long id);
 }

@@ -112,5 +112,10 @@ public class ProductControllerImpl implements ProductController {
         }
         
     }
+    
+    public ResponseEntity<Void> productActivator(@PathVariable Long id) {
+        productService.productActivator(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

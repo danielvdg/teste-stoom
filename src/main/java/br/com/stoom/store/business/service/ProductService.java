@@ -20,4 +20,6 @@ public interface ProductService {
     public List<Product> findListProductByBrandId(Long id);
 
     public List<Product> findListProductByCategoryId(Long id);
+
+    public void productActivator (Long id);
 }

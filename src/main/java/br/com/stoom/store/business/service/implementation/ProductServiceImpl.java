@@ -64,5 +64,11 @@ public class ProductServiceImpl implements ProductService{
         return productRepository.findListProductByCategoryId(id);
     }
 
-
+    public void productActivator (Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        
+        product.setActive(true);
+        productRepository.save(product);        
+    }
 }
