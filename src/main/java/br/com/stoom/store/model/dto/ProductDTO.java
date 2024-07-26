@@ -1,6 +1,6 @@
 package br.com.stoom.store.model.dto;
 
-import java.util.Set;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +12,8 @@ public class ProductDTO {
     private Long id;
     private String name;
     private boolean active;
-    private Set<BrandDTO> brands;
-    private Set<CategoryDTO> categories;
+    private List<BrandDTO> brands;
+    private List<CategoryDTO> categories;
+    private List<PriceDTO> prices;
 
 }
