@@ -1,47 +1,69 @@
 package br.com.stoom.store.business.service.implementation;
 
 import br.com.stoom.store.business.service.ProductService;
+import br.com.stoom.store.business.service.mapper.ProductMapperService;
+import br.com.stoom.store.model.dto.ProductDTO;
 import br.com.stoom.store.model.entity.Product;
-import br.com.stoom.store.repository.BrandRepository;
 import br.com.stoom.store.repository.ProductRepository;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
-    @Autowired
-    private ProductRepository productRepository;
+    
+    private final ProductRepository productRepository;
 
-    public Product create(Product product) {
+    private final ProductMapperService productMapperService;
+
+    public ProductDTO create(ProductDTO productDTO) {
+        Product product =productMapperService.converterToEntity(productDTO);
+
         if(product.getId() != null) {
             throw new RuntimeException("Product already exist.");   
         }
         product.setActive(true);
+        productRepository.save(product);
+
+        productDTO = productMapperService.converterToDTO(product);
         
-        return productRepository.save(product);
+        return productDTO;
     }
 
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Optional<ProductDTO> findById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            ProductDTO productDTO = productMapperService.converterToDTO(product.get());
+            return Optional.of(productDTO);
+        } else {
+            return Optional.empty();
+        }
+
     }
 
-    public List<Product> findAll() {
-        return productRepository.findAll();
+   public List<ProductDTO> findAll() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                       .map(productMapperService::converterToDTO)
+                       .collect(Collectors.toList());
     }
 
-    public Product update(Long id, Product productDetails) {
+    public ProductDTO update(Long id, ProductDTO productDetailsDTO) {
+        Product productDetails = productMapperService.converterToEntity(productDetailsDTO);
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
+    
         product.setName(productDetails.getName());
         product.setBrands(productDetails.getBrands());
-
-        return productRepository.save(product);
+    
+        Product updatedProduct = productRepository.save(product);
+        return productMapperService.converterToDTO(updatedProduct);
     }
 
     public void delete(Long id) {
@@ -52,12 +74,21 @@ public class ProductServiceImpl implements ProductService{
         productRepository.save(product);        
     }
 
-    public Optional<Product> findProductByBrandId(Long id) {
-        return productRepository.findProductByBrandId(id);
+    public List<ProductDTO> findProductByBrandId(Long id) {
+        List<Product> products = productRepository.findProductByBrandId(id);
+        
+        return products.stream()
+                .map(productMapperService::converterToDTO)
+                .collect(Collectors.toList());
+       
     }
 
-    public Optional<Product> findProductByCategoryId(Long id) {
-        return productRepository.findProductByCategoryId(id);
+    public List<ProductDTO> findProductByCategoryId(Long id) {
+        List<Product> products = productRepository.findProductByCategoryId(id);
+    
+        return products.stream()
+                .map(productMapperService::converterToDTO)
+                .collect(Collectors.toList());
     }
 
 

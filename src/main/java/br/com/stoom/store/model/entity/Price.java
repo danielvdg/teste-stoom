@@ -25,10 +25,18 @@ public class Price {
     private Long id;
 
     @Column
-    private String name;
+    private String priceKind;
 
+    @Column
+    private Long amount;
+
+    @Column
+    private Long lot;
+
+    @Column
     private Date madeIn;
 
+    @Column
     private Date expirationDate;
     
 }
