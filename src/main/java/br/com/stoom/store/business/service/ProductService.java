@@ -3,21 +3,21 @@ package br.com.stoom.store.business.service;
 import java.util.List;
 import java.util.Optional;
 
-import br.com.stoom.store.model.dto.ProductDTO;
+import br.com.stoom.store.model.entity.Product;
 
 public interface ProductService {
     
-    public Optional<ProductDTO> findById(Long id);     
+    public Optional<Product> findById(Long id);     
     
-    public List<ProductDTO> findAll();
+    public List<Product> findAll();
 
-    public ProductDTO create(ProductDTO productDTO);
+    public Product create(Product productDTO);
 
-    public ProductDTO update(Long id, ProductDTO productDTO);
+    public Product update(Long id, Product product);
 
     public void delete(Long id);
 
-    public List<ProductDTO> findProductByBrandId(Long id);
+    public List<Product> findListProductByBrandId(Long id);
 
-    public List<ProductDTO> findProductByCategoryId(Long id);
+    public List<Product> findListProductByCategoryId(Long id);
 }
