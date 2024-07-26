@@ -6,28 +6,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.stoom.store.model.dto.ProductDTO;
-import br.com.stoom.store.model.entity.Product;
 
 public interface ProductController {
 
     @GetMapping
-    public ResponseEntity<List<Product>> findAll();
+    public ResponseEntity<List<ProductDTO>> findAll();
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> findById(@PathVariable Long id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id);
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO);
+    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO);
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody ProductDTO productDTO);
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO productDTO);
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id);
 
     @GetMapping("/brand/{id}")
-    public ResponseEntity<Product> findProductByBrandId(Long id);
+    public ResponseEntity <List<ProductDTO>> findProductByBrandId(Long id);
 
     @GetMapping("/category/{id}")
-    public ResponseEntity<Product> findProductByCategoryId(@PathVariable Long id);
+    public  ResponseEntity<List<ProductDTO>> findProductByCategoryId(@PathVariable Long id);
 }

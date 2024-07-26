@@ -3,7 +3,6 @@ package br.com.stoom.store.controller.implementation;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,55 +12,48 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.stoom.store.business.service.ProductService;
-import br.com.stoom.store.business.service.mapper.ProductMapperService;
 import br.com.stoom.store.controller.ProductController;
 import br.com.stoom.store.model.dto.ProductDTO;
-import br.com.stoom.store.model.entity.Product;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/products")
+@AllArgsConstructor
 public class ProductControllerImpl implements ProductController {
+   
+    private final ProductService productService;   
 
-    @Autowired
-    private ProductService productService;
-
-    @Autowired
-    private ProductMapperService productMapperService;
-
-    public ResponseEntity<List<Product>> findAll() {
-        List<Product> listProducts = productService.findAll();
+    public ResponseEntity<List<ProductDTO>> findAll() {
+        List<ProductDTO> listProducts = productService.findAll();
         if(!listProducts.isEmpty())
             return new ResponseEntity<>(listProducts, HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    public ResponseEntity<Product> findById(@PathVariable Long id) {
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         return productService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<Product> create(@RequestBody ProductDTO productDTO) {
-        
-        Product product = productMapperService.converterToEntity(productDTO);
-
-        product = productService.create(product);
+    public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO) {
+        productService.create(productDTO);
         
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(product.getId())
+            .buildAndExpand(productDTO.getId())
             .toUri();
         
-        return ResponseEntity.created(uri).body(product);
+        return ResponseEntity.created(uri).body(productDTO);
     }
 
-    public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        Product productDetails = productMapperService.converterToEntity(productDTO);
-        Product updateproduct = productService.update(id, productDetails);
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+        
+        ProductDTO updateproductDTO = productService.update(id, productDTO);
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateproduct);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(updateproductDTO);
     }
 
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -69,18 +61,13 @@ public class ProductControllerImpl implements ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Product> findProductByBrandId(@PathVariable Long id){
-        return productService.findProductByBrandId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<List<ProductDTO>> findProductByBrandId(@PathVariable Long id){
+        List<ProductDTO> products=   productService.findProductByBrandId(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(products);
          
     }
-
-    public ResponseEntity<Product> findProductByCategoryId(@PathVariable Long id){
-        return productService.findProductByCategoryId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-         
+    public ResponseEntity<List<ProductDTO>> findProductByCategoryId(@PathVariable Long id) {
+        List<ProductDTO> products = productService.findProductByCategoryId(id);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(products);
     }
-    
 }

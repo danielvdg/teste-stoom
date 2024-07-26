@@ -1,6 +1,7 @@
 package br.com.stoom.store.model.dto;
 
-import java.util.Set;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,5 +12,6 @@ public class BrandDTO {
     
     private Long id;
     private String name;
-    private Set<ProductDTO> products;
+    @JsonIgnore
+    private List<ProductDTO> products;
 }

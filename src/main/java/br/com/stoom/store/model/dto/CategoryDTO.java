@@ -1,12 +1,7 @@
 package br.com.stoom.store.model.dto;
 
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.stoom.store.model.entity.Product;
 import lombok.Getter;
@@ -19,6 +14,7 @@ public class CategoryDTO {
     private Long id;
     private String name;
     private String categoryKind;
-    private Set<Product> products;
+    @JsonIgnore
+    private List<Product> products;
     
 }

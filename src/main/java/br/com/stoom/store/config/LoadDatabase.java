@@ -1,8 +1,7 @@
 package br.com.stoom.store.config;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -56,11 +55,11 @@ public class LoadDatabase {
             Product product1 = new Product();
             product1.setName("Arroz");
             product1.setActive(true);
-            Set<Brand> product1Brands = new HashSet<>();
+            List<Brand> product1Brands = new ArrayList<>();
             product1Brands.add(brand1);
             product1Brands.add(brand2);
             product1.setBrands(product1Brands);
-            Set<Category> product1Categories = new HashSet<>();
+            List<Category> product1Categories = new ArrayList<>();
             product1Categories.add(category1);
             product1Categories.add(category3);
             product1.setCategories(product1Categories);
@@ -69,10 +68,10 @@ public class LoadDatabase {
             Product product2 = new Product();
             product2.setName("Feijão");
             product2.setActive(true);
-            Set<Brand> product2Brands = new HashSet<>();
+            List<Brand> product2Brands = new ArrayList<>();
             product2Brands.add(brand2);
             product2.setBrands(product2Brands);
-            Set<Category> product2Categories = new HashSet<>();
+            List<Category> product2Categories = new ArrayList<>();
             product2Categories.add(category1);
             product2Categories.add(category2);
             product2.setCategories(product2Categories);
@@ -81,10 +80,10 @@ public class LoadDatabase {
             Product product3 = new Product();
             product3.setName("Batata");
             product3.setActive(false);
-            Set<Brand> product3Brands = new HashSet<>();
+            List<Brand> product3Brands = new ArrayList<>();
             product3Brands.add(brand3);
             product3.setBrands(product3Brands);
-            Set<Category> product3Categories = new HashSet<>();
+            List<Category> product3Categories = new ArrayList<>();
             product3Categories.add(category3);
             product3.setCategories(product3Categories);
             productRepository.save(product3);
