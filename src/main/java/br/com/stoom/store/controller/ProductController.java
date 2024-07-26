@@ -24,4 +24,10 @@ public interface ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id);
+
+    @GetMapping("/brand/{id}")
+    public ResponseEntity<Product> findProductByBrandId(Long id);
+
+    @GetMapping("/category/{id}")
+    public ResponseEntity<Product> findProductByCategoryId(@PathVariable Long id);
 }

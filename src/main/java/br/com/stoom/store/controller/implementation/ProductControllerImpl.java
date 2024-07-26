@@ -68,5 +68,19 @@ public class ProductControllerImpl implements ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    public ResponseEntity<Product> findProductByBrandId(@PathVariable Long id){
+        return productService.findProductByBrandId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+         
+    }
+
+    public ResponseEntity<Product> findProductByCategoryId(@PathVariable Long id){
+        return productService.findProductByCategoryId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+         
+    }
     
 }

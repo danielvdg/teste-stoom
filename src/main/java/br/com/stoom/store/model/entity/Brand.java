@@ -1,10 +1,16 @@
 package br.com.stoom.store.model.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,4 +30,8 @@ public class Brand {
 
     @Column
     private String name;
+    
+    @ManyToMany(mappedBy = "brands")
+    @JsonIgnore
+    private Set<Product> products;
 }

@@ -7,12 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductDTO {
-  
+public class BrandDTO {
+    
     private Long id;
     private String name;
-    private boolean active;
-    private Set<BrandDTO> brands;
-    private Set<CategoryDTO> categories;
-
+    private Set<ProductDTO> products;
 }

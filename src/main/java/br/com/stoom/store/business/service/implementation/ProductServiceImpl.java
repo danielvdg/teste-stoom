@@ -2,6 +2,7 @@ package br.com.stoom.store.business.service.implementation;
 
 import br.com.stoom.store.business.service.ProductService;
 import br.com.stoom.store.model.entity.Product;
+import br.com.stoom.store.repository.BrandRepository;
 import br.com.stoom.store.repository.ProductRepository;
 
 import java.util.List;
@@ -11,15 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductImpl implements ProductService{
+public class ProductServiceImpl implements ProductService{
 
     @Autowired
     private ProductRepository productRepository;
 
     public Product create(Product product) {
-       if (product.getId() != null) {
-           throw new RuntimeException("Product already exist.");   
-        }        
+        if(product.getId() != null) {
+            throw new RuntimeException("Product already exist.");   
+        }
+        product.setActive(true);
+        
         return productRepository.save(product);
     }
 
@@ -36,6 +39,7 @@ public class ProductImpl implements ProductService{
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
         product.setName(productDetails.getName());
+        product.setBrands(productDetails.getBrands());
 
         return productRepository.save(product);
     }
@@ -46,6 +50,14 @@ public class ProductImpl implements ProductService{
         
         product.setActive(false);
         productRepository.save(product);        
+    }
+
+    public Optional<Product> findProductByBrandId(Long id) {
+        return productRepository.findProductByBrandId(id);
+    }
+
+    public Optional<Product> findProductByCategoryId(Long id) {
+        return productRepository.findProductByCategoryId(id);
     }
 
 
